@@ -395,6 +395,17 @@ class AppearanceGeneratorHelper
         if (formResources != null)
         {
             font = formResources.getFont(cosFontName);
+            if( font == null )
+            {
+                font = (PDFont) formResources.getFonts().get( fontName );
+                // If the font required could not be found either in streamResources and formResources 
+                // then one of the available formResources' font is returned
+                if ( font == null ) 
+                {
+                    font = (PDFont) formResources.getFonts().values().toArray()[ formResources.getFonts().size() - 1 ];
+                }
+            }
+            
             if (font != null)
             {
                 streamResources.put(cosFontName, font);
