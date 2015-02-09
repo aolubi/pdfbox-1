@@ -817,7 +817,13 @@ public class PDAppearance
             retval = (PDFont) streamResources.getFonts().get(fontName);
             if (retval == null)
             {
-                retval = (PDFont) formResources.getFonts().get(fontName);
+                retval = (PDFont)formResources.getFonts().get( fontName );
+                // If the font required could not be found either in streamResources and formResources 
+                // then one of the available formResources' font is returned
+                if ( retval == null ) 
+                {
+                    retval = (PDFont)formResources.getFonts().values().toArray()[ formResources.getFonts().size() - 1 ];
+                }
                 streamResources.addFont(retval, fontName);
             }
         }
